@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-@app.get("/prediction") # Je donne en valeur d'entrée un joueur au hasard
+@app.get("/prediction") # I give a random player the entry value
 def predict(
         GP   = 0.563380,
         MIN  = 0.092593,
@@ -62,11 +62,12 @@ def predict(
     #On preprocesse les valeurs du joueur à l'aide du scaler ayant servi à transformer l'ensemble du dataset
     X_processed = app.state.scaler.transform(X_pred)
     X_processed = pd.DataFrame(X_processed, columns=X_pred.columns)
+
     #On prédit si le joueur est intéressant dans les 5 ans, avec la précision à 90%
     y_pred = custom_predict(X_processed,app.state.model)
     return {'Prédiction' : int(y_pred) }
 
 
 @app.get("/")
-def root(): #Valeur de la racine pour valider le fonctionnement de l'API
+def root(): # Root value to validate API operation
     return{'greeting': 'Helloworld'}
